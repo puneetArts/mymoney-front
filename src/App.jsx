@@ -1,6 +1,8 @@
 import { useEffect, useMemo, useState } from 'react'
 import './App.css'
 
+const API_BASE = import.meta.env.VITE_API_BASE || ''
+
 const formatMoney = (value) => {
   const numberValue = Number(value) || 0
   return new Intl.NumberFormat('en-IN', {
@@ -34,13 +36,13 @@ const emptyAdjustDraft = {
 }
 
 const apiGet = async (path) => {
-  const res = await fetch(path)
+  const res = await fetch(`${API_BASE}${path}`)
   if (!res.ok) throw new Error('Request failed')
   return res.json()
 }
 
 const apiPost = async (path, body) => {
-  const res = await fetch(path, {
+  const res = await fetch(`${API_BASE}${path}`, {
     method: 'POST',
     headers: { 'Content-Type': 'application/json' },
     body: JSON.stringify(body),
@@ -54,7 +56,7 @@ const apiPost = async (path, body) => {
 }
 
 const apiPatch = async (path, body) => {
-  const res = await fetch(path, {
+  const res = await fetch(`${API_BASE}${path}`, {
     method: 'PATCH',
     headers: { 'Content-Type': 'application/json' },
     body: JSON.stringify(body),
@@ -68,7 +70,7 @@ const apiPatch = async (path, body) => {
 }
 
 const apiDelete = async (path) => {
-  const res = await fetch(path, { method: 'DELETE' })
+  const res = await fetch(`${API_BASE}${path}`, { method: 'DELETE' })
   if (!res.ok) {
     const payload = await res.json().catch(() => ({}))
     const message = payload?.error || 'Request failed'
