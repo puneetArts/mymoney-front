@@ -168,7 +168,18 @@ button.danger {
 .account-card.account-bank {
   border: 2px solid transparent;
   background: linear-gradient(#0f0f14, #0f0f14) padding-box,
-    linear-gradient(90deg, #ff3b3b, #3b6bff, #34d399, #fbbf24) border-box;
+    linear-gradient(
+      90deg,
+      #3b6bff 0%,
+      #3b6bff 12.5%,
+      #ff3b3b 25%,
+      #ff3b3b 37.5%,
+      #34d399 50%,
+      #34d399 62.5%,
+      #fbbf24 75%,
+      #fbbf24 100%
+    )
+    border-box;
 }
 
 .account-card .form-grid {
