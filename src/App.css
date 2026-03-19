@@ -47,7 +47,7 @@
   flex-direction: column;
   justify-content: center;
   gap: 10px;
-  border: 1px solid #3a3a45;
+  border: 1px solid #7bb6ff;
 }
 
 .summary-label {
@@ -77,6 +77,10 @@
   border-radius: 16px;
   padding: 20px;
   border: 1px solid #3a3a45;
+}
+
+.panel.recent-panel {
+  border: 1px solid #7bb6ff;
 }
 
 .panel-header {
@@ -155,6 +159,16 @@ button.danger {
   display: flex;
   flex-direction: column;
   gap: 14px;
+}
+
+.account-card.account-cash {
+  border: 2px solid #2ecc71;
+}
+
+.account-card.account-bank {
+  border: 2px solid transparent;
+  background: linear-gradient(#0f0f14, #0f0f14) padding-box,
+    linear-gradient(90deg, #ff3b3b, #3b6bff, #34d399, #fbbf24) border-box;
 }
 
 .account-card .form-grid {

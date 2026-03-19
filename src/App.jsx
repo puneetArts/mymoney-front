@@ -373,7 +373,10 @@ export default function App() {
           const adjustDraft = adjustDrafts[account._id] || emptyAdjustDraft
 
           return (
-            <article className="account-card" key={account._id}>
+            <article
+              className={`account-card account-${account.type}`}
+              key={account._id}
+            >
               <div className="account-header">
                 <div>
                   <p className="account-type">{account.type.toUpperCase()}</p>
@@ -561,7 +564,7 @@ export default function App() {
         {renderUnknownList(unknownIncome)}
       </section>
 
-      <section className="panel">
+      <section className="panel recent-panel">
         <div className="panel-header">
           <div>
             <h2>Recent Activity</h2>
