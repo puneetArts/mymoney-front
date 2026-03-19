@@ -130,6 +130,14 @@ export default function App() {
     return map
   }, [accounts])
 
+  const adjustments = useMemo(
+    () => transactions.filter((tx) => tx.type === 'adjustment'),
+    [transactions]
+  )
+
+  const unknownExpense = adjustments.filter((tx) => (tx.meta?.delta ?? 0) < 0)
+  const unknownIncome = adjustments.filter((tx) => (tx.meta?.delta ?? 0) > 0)
+
   const handleCreateAccount = async (event) => {
     event.preventDefault()
     try {
@@ -268,6 +276,35 @@ export default function App() {
     } catch (err) {
       setError(err.message)
     }
+  }
+
+  const renderUnknownList = (items) => {
+    if (!items.length) return <p className="muted">No entries.</p>
+    return (
+      <div className="transactions">
+        {items.map((tx) => {
+          const account = accountMap.get(tx.accountId)
+          const split = splitMap.get(tx.splitId)
+          return (
+            <div className="transaction-row" key={tx._id}>
+              <div>
+                <p className="tx-title">{tx.description || 'Unknown'}</p>
+                <p className="tx-meta">
+                  {account?.name || 'Unknown account'}
+                  {split ? ` / ${split.name}` : ''}
+                </p>
+              </div>
+              <div className="tx-amount">
+                <span>{new Date(tx.createdAt).toLocaleString()}</span>
+                <strong className={(tx.meta?.delta ?? 0) < 0 ? 'negative' : ''}>
+                  {formatMoney(tx.amount)}
+                </strong>
+              </div>
+            </div>
+          )
+        })}
+      </div>
+    )
   }
 
   return (
@@ -506,6 +543,22 @@ export default function App() {
             </article>
           )
         })}
+      </section>
+
+      <section className="panel">
+        <div className="panel-header">
+          <h2>Unknown Spending</h2>
+          <p>From reconciliation when actual balance was lower.</p>
+        </div>
+        {renderUnknownList(unknownExpense)}
+      </section>
+
+      <section className="panel">
+        <div className="panel-header">
+          <h2>Unknown Income</h2>
+          <p>From reconciliation when actual balance was higher.</p>
+        </div>
+        {renderUnknownList(unknownIncome)}
       </section>
 
       <section className="panel">
